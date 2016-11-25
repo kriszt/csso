@@ -1,2 +1,5 @@
 #Homeworks [C++] [Windows API]
-## #1 Working with files and registry [Done]
+## #1 Files and registry [Done]
+## #2 Processes, threads, file mapping [TODO]
+## #3 Syncing mechanisms [TODO]
+## #4 HTTP/FTP [TODO]
