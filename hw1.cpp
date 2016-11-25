@@ -1,9 +1,14 @@
 #include <windows.h>
+#include <assert.h>
 #include <iostream>
+
 #include "hw1.h"
 
-HKEY createKey(HKEY keyPath, char* keyName)
+static HKEY createKey(HKEY keyPath, char* keyName)
 {
+    assert(keyPath != NULL);
+    assert(keyName != NULL);
+
     HKEY keyHandle;
     if(RegCreateKeyEx(keyPath,keyName,0,0,REG_OPTION_NON_VOLATILE,KEY_WRITE,NULL,&keyHandle,NULL) == ERROR_SUCCESS)
     {
@@ -18,13 +23,17 @@ HKEY createKey(HKEY keyPath, char* keyName)
     return keyHandle;
 }
 
-void findFile(HKEY hKey, std::string path)
+static void findFile(HKEY hKey, std::string path)
 {
+    assert(path.size() != 0);
+    assert(hKey != NULL);
+
     WIN32_FIND_DATA file;
     std::string fullPath = path + "\\*";
     HANDLE searchHandle = FindFirstFile(fullPath.c_str(), &file);
     HKEY newHKey;
     DWORD size;
+
 
     if (searchHandle != INVALID_HANDLE_VALUE)
     {
@@ -34,7 +43,7 @@ void findFile(HKEY hKey, std::string path)
                 if (!strcmp(file.cFileName,".") || !strcmp(file.cFileName,".."))
                     continue;
                 newHKey = createKey(hKey,file.cFileName);
-                findFile(newHKey, path + "\\" + file.cFileName);
+                findFile(newHKey, path + "\\" +  file.cFileName);
             }
             else {
                 size = (file.nFileSizeHigh * (MAXDWORD+1)) + file.nFileSizeLow;
@@ -53,8 +62,7 @@ void findFile(HKEY hKey, std::string path)
             }
         } while (FindNextFile(searchHandle, &file));
         FindClose(searchHandle);
-    }
-    else
+    } else 
         std::cout<<"Error for the path "<<path;
 }
 

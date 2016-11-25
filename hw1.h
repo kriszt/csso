@@ -1,6 +1,6 @@
 #ifndef CSSO_HW1_H
 #define CSSO_HW1_H
 
-void hw1();
+extern void hw1(void);
 
 #endif //CSSO_HW1_H
