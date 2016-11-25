@@ -1,6 +1,7 @@
 //#include "hw1.h"
 
-int main() {
+int main() 
+{
     //hw1();
     return 0;
 }
